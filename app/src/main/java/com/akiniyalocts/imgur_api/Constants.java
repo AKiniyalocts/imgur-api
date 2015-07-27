@@ -5,4 +5,8 @@ package com.akiniyalocts.imgur_api;
  */
 public class Constants {
     public static final String API_BASE_URL = "https://api.imgur.com/3/";
+
+    public static final String IMGUR_REDIRECT_URL = "http://android";
+
+    public static final String IMGUR_GRANT_TYPE = "refresh_token";// required for AUTH header
 }
