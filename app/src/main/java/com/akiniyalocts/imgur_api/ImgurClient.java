@@ -8,6 +8,7 @@ import com.akiniyalocts.imgur_api.model.Image;
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 
 /**
@@ -42,13 +43,24 @@ public class ImgurClient {
      */
     private void setRestAdapter() {
         if (mRestAdapter == null) {
-            //todo Set RequestInterceptor for api auth headers?
+            //todo setup conditional for client || bearer auth
+            //todo defaulted to client right now
+            RequestInterceptor requestInterceptor = new RequestInterceptor() {
+                @Override
+                public void intercept(RequestFacade request) {
+                    request.addHeader(Constants.AUTH_CLIENT, Constants.CLIENT_ID);
+                }
+            };
+
+
             RestAdapter.Builder restAdapterBuilder = new RestAdapter.Builder()
                     .setEndpoint(Constants.API_BASE_URL);
 
             //Set Loglevel to FULL if we're running a debug build
             if (BuildConfig.DEBUG)
                 restAdapterBuilder.setLogLevel(RestAdapter.LogLevel.FULL);
+
+            restAdapterBuilder.setRequestInterceptor(requestInterceptor);
 
             mRestAdapter = restAdapterBuilder.build();
         }
