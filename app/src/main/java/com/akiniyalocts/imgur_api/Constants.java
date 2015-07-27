@@ -8,5 +8,14 @@ public class Constants {
 
     public static final String IMGUR_REDIRECT_URL = "http://android";
 
-    public static final String IMGUR_GRANT_TYPE = "refresh_token";// required for AUTH header
+    public static final String IMGUR_GRANT_TYPE = "refresh_token";
+
+    public static final String AUTH_BEARER = "Bearer ";
+
+    public static final String AUTH_CLIENT = "Client-ID ";
+
+    /**
+     * Placeholder for now.
+     */
+    public static final String CLIENT_ID = "";
 }
