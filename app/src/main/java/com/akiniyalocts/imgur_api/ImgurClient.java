@@ -3,6 +3,9 @@ package com.akiniyalocts.imgur_api;
 import android.support.annotation.NonNull;
 
 import com.akiniyalocts.imgur_api.model.Album;
+import com.akiniyalocts.imgur_api.model.Image;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -61,5 +64,17 @@ public class ImgurClient {
     public void getAlbumInfo(int id, @NonNull Callback<Album> cb) {
         ImgurAPI imgur = mRestAdapter.create(ImgurAPI.class);
         imgur.getAlbumInfo(id, cb);
+    }
+
+    /**
+     * Provides images list of all images in an album via callback
+     *
+     * @param albumId id of the album
+     * @param cb callback
+     * @see com.akiniyalocts.imgur_api.model.Image
+     */
+    public void getAlbumImages(int albumId, @NonNull Callback<List<Image>> cb){
+        ImgurAPI imgur = mRestAdapter.create(ImgurAPI.class);
+        imgur.getAlbumImages(albumId, cb);
     }
 }

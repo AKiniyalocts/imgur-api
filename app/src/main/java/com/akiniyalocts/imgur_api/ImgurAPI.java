@@ -1,6 +1,9 @@
 package com.akiniyalocts.imgur_api;
 
 import com.akiniyalocts.imgur_api.model.Album;
+import com.akiniyalocts.imgur_api.model.Image;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -13,5 +16,8 @@ public interface ImgurAPI {
 
     @GET("/album/{id}")
     void getAlbumInfo(@Path("id") int id, Callback<Album> cb);
+
+    @GET("/album/{id}/images")
+    void getAlbumImages(@Path("id") int albumId, Callback<List<Image>> cb);
 
 }
