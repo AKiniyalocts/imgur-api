@@ -1,2 +1,1 @@
-include ':app'
-//, ':imgurapitestapplication'
+include ':app' , ':imgurapitestapplication'

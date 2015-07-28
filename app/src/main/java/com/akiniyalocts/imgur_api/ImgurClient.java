@@ -19,8 +19,9 @@ import retrofit.RestAdapter;
  */
 public class ImgurClient {
 
-    private RestAdapter mRestAdapter;
+    private static RestAdapter mRestAdapter;
     private static ImgurClient instance;
+    private static ImgurAPI imgurAPI;
 
     private ImgurClient() {
         setRestAdapter();
@@ -41,7 +42,7 @@ public class ImgurClient {
      * Configures the restAdapter if its not configured yet
      * Sets endpoint and loglevel
      */
-    private void setRestAdapter() {
+    private static void setRestAdapter() {
         if (mRestAdapter == null) {
             //todo setup conditional for client || bearer auth
             //todo defaulted to client right now
@@ -67,6 +68,36 @@ public class ImgurClient {
     }
 
     /**
+     *
+     * @return our instance of our RestAdapter
+     */
+    private static RestAdapter getRestAdapter(){
+        if(mRestAdapter != null){
+            return mRestAdapter;
+        }
+        else{
+            setRestAdapter();
+
+            return mRestAdapter;
+        }
+    }
+
+    /**
+     *
+     * @return our instance of our ImgurAPI
+     */
+    private static ImgurAPI getImgurAPI(){
+        if(imgurAPI != null){
+            return imgurAPI;
+        }
+        else{
+            imgurAPI = getRestAdapter().create(ImgurAPI.class);
+            return imgurAPI;
+        }
+    }
+
+
+    /**
      * Provides album object via callback
      *
      * @param id id of the album
@@ -74,8 +105,7 @@ public class ImgurClient {
      * @see com.akiniyalocts.imgur_api.model.Album
      */
     public void getAlbumInfo(int id, @NonNull Callback<Album> cb) {
-        ImgurAPI imgur = mRestAdapter.create(ImgurAPI.class);
-        imgur.getAlbumInfo(id, cb);
+        getImgurAPI().getAlbumInfo(id, cb);
     }
 
     /**
@@ -86,8 +116,7 @@ public class ImgurClient {
      * @see com.akiniyalocts.imgur_api.model.Image
      */
     public void getAlbumImages(int albumId, @NonNull Callback<List<Image>> cb){
-        ImgurAPI imgur = mRestAdapter.create(ImgurAPI.class);
-        imgur.getAlbumImages(albumId, cb);
+        getImgurAPI().getAlbumImages(albumId, cb);
     }
 
     /**
@@ -99,7 +128,6 @@ public class ImgurClient {
      * @see com.akiniyalocts.imgur_api.model.Image
      */
     public void getAlbumImage(int albumId, int imageId, @NonNull Callback<Image> cb){
-        ImgurAPI imgur = mRestAdapter.create(ImgurAPI.class);
-        imgur.getAlbumImage(albumId, imageId, cb);
+        getImgurAPI().getAlbumImage(albumId, imageId, cb);
     }
 }
