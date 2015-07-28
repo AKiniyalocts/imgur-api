@@ -89,4 +89,17 @@ public class ImgurClient {
         ImgurAPI imgur = mRestAdapter.create(ImgurAPI.class);
         imgur.getAlbumImages(albumId, cb);
     }
+
+    /**
+     * Provides images list of all images in an album via callback
+     *
+     * @param albumId id of the album
+     * @param imageId id of the image in the album
+     * @param cb callback
+     * @see com.akiniyalocts.imgur_api.model.Image
+     */
+    public void getAlbumImage(int albumId, int imageId, @NonNull Callback<Image> cb){
+        ImgurAPI imgur = mRestAdapter.create(ImgurAPI.class);
+        imgur.getAlbumImage(albumId, imageId, cb);
+    }
 }

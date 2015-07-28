@@ -20,4 +20,6 @@ public interface ImgurAPI {
     @GET("/album/{id}/images")
     void getAlbumImages(@Path("id") int albumId, Callback<List<Image>> cb);
 
+    @GET("/album/{id}/image/{id}")
+    void getAlbumImage(@Path("id") int albumId, @Path("id") int imageId, Callback<Image> cb);
 }
