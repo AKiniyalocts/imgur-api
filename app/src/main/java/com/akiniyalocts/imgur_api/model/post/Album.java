@@ -9,10 +9,28 @@ import java.util.Arrays;
  * Used for creating and updating an album
  */
 public class Album {
+
+    public Album() {
+    }
+
+    /**
+     * Converts existing Album object to a post album, so it can be used to update an album
+     *
+     * @param album album which will be converted
+     */
+    public Album(com.akiniyalocts.imgur_api.model.Album album) {
+        imageIds = album.getImageIds();
+        title = album.getTitle();
+        description = album.getDescription();
+        albumPrivacy = album.getPrivacyEnum();
+        layout = album.getLayoutEnum();
+        cover = album.getCover();
+    }
+
     /**
      * Image Ids which will be initially added to the album
      */
-    private int[] imageIds;
+    private String[] imageIds;
 
     /**
      * Title
@@ -37,7 +55,7 @@ public class Album {
     /**
      * Cover image
      */
-    private int cover;
+    private String cover;
 
     @Override
     public String toString() {
@@ -51,7 +69,7 @@ public class Album {
                 '}';
     }
 
-    public int[] getImageIds() {
+    public String[] getImageIds() {
         return imageIds;
     }
 
@@ -60,7 +78,7 @@ public class Album {
      *
      * @param imageIds Image Ids which will be initially added to the album
      */
-    public void setImageIds(int[] imageIds) {
+    public void setImageIds(String[] imageIds) {
         this.imageIds = imageIds;
     }
 
@@ -112,7 +130,7 @@ public class Album {
         this.layout = layout;
     }
 
-    public int getCover() {
+    public String getCover() {
         return cover;
     }
 
@@ -121,7 +139,7 @@ public class Album {
      *
      * @param cover Cover image id
      */
-    public void setCover(int cover) {
+    public void setCover(String cover) {
         this.cover = cover;
     }
 }

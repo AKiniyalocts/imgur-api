@@ -57,7 +57,6 @@ public class ImgurClient {
                 }
             };
 
-
             RestAdapter.Builder restAdapterBuilder = new RestAdapter.Builder()
                     .setEndpoint(Constants.API_BASE_URL);
 
@@ -96,7 +95,6 @@ public class ImgurClient {
         }
     }
 
-
     /**
      * Provides album object via callback
      *
@@ -131,7 +129,34 @@ public class ImgurClient {
         getImgurAPI().getAlbumImage(albumId, imageId, cb);
     }
 
+    /**
+     * Creates an album
+     *
+     * @param album post object of an album
+     * @param cb    callback
+     */
     public void createAlbum(@NonNull com.akiniyalocts.imgur_api.model.post.Album album, Callback<Basic> cb) {
         getImgurAPI().createAlbum(album, cb);
+    }
+
+    /**
+     * Updates an album
+     *
+     * @param album album
+     * @param cb    callback
+     */
+    public void updateAlbum(@NonNull Album album, Callback<Basic> cb) {
+        //Convert Album to post.Album
+        com.akiniyalocts.imgur_api.model.post.Album postAlbum =
+                new com.akiniyalocts.imgur_api.model.post.Album(album);
+
+        //anonymously created albums have a deletehash, which can be used
+        //to update and delete an album
+        String deleteHash = album.getDeletehash();
+        if (deleteHash.isEmpty()) {
+            getImgurAPI().updateAlbum(album.getId(), postAlbum, cb);
+        } else {
+            getImgurAPI().updateAlbum(album.getDeletehash(), postAlbum, cb);
+        }
     }
 }

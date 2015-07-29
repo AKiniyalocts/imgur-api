@@ -1,5 +1,10 @@
 package com.akiniyalocts.imgur_api.model;
 
+import android.support.annotation.NonNull;
+
+import com.akiniyalocts.imgur_api.model.enums.AlbumLayout;
+import com.akiniyalocts.imgur_api.model.enums.AlbumPrivacy;
+
 import java.util.List;
 
 /**
@@ -103,6 +108,12 @@ public class Album {
         return privacy;
     }
 
+    public AlbumPrivacy getPrivacyEnum() {
+        return Enum.valueOf(AlbumPrivacy.class, privacy);
+    }
+
+    //// TODO: 29.07.15 Set Privacy as enum will be more useful for an user
+    //// but we need something like that for the gson conversion
     public void setPrivacy(String privacy) {
         this.privacy = privacy;
     }
@@ -111,6 +122,12 @@ public class Album {
         return layout;
     }
 
+    public AlbumLayout getLayoutEnum() {
+        return Enum.valueOf(AlbumLayout.class, layout);
+    }
+
+    //// TODO: 29.07.15 Set Layout as enum will be more useful for an user,
+    //// but we need something like that for the gson conversion
     public void setLayout(String layout) {
         this.layout = layout;
     }
@@ -185,5 +202,22 @@ public class Album {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    /**
+     * Gets imageids from the album images
+     *
+     * @return returns array of image ids, can be empty
+     */
+    @NonNull
+    public String[] getImageIds() {
+        int size = getImages_count();
+        String[] imageIds = new String[size];
+
+        for (int i = 0; i < size; i++) {
+            imageIds[i] = getImages().get(i).getId();
+        }
+
+        return imageIds;
     }
 }
