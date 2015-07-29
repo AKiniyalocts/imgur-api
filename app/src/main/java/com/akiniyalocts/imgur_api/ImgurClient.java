@@ -102,7 +102,7 @@ public class ImgurClient {
      * @param cb callback
      * @see com.akiniyalocts.imgur_api.model.Album
      */
-    public void getAlbumInfo(int id, @NonNull Callback<Album> cb) {
+    public void getAlbumInfo(@NonNull String id, @NonNull Callback<Album> cb) {
         getImgurAPI().getAlbumInfo(id, cb);
     }
 
@@ -113,7 +113,7 @@ public class ImgurClient {
      * @param cb      callback
      * @see com.akiniyalocts.imgur_api.model.Image
      */
-    public void getAlbumImages(int albumId, @NonNull Callback<List<Image>> cb) {
+    public void getAlbumImages(@NonNull String albumId, @NonNull Callback<List<Image>> cb) {
         getImgurAPI().getAlbumImages(albumId, cb);
     }
 
@@ -125,8 +125,8 @@ public class ImgurClient {
      * @param cb      callback
      * @see com.akiniyalocts.imgur_api.model.Image
      */
-    public void getAlbumImage(int albumId,
-                              int imageId,
+    public void getAlbumImage(@NonNull String albumId,
+                              @NonNull String imageId,
                               @NonNull Callback<Image> cb) {
         getImgurAPI().getAlbumImage(albumId, imageId, cb);
     }
@@ -244,8 +244,8 @@ public class ImgurClient {
      * @param imageIds image ids which will be added to the album
      * @param cb       callback
      */
-    public void addImagesToAlbum(@NonNull Album album, @
-            NonNull String[] imageIds,
+    public void addImagesToAlbum(@NonNull Album album,
+                                 @NonNull String[] imageIds,
                                  @NonNull Callback<Basic> cb) {
         //anonymously created albums have a deletehash, which can be used
         //to update and delete an album

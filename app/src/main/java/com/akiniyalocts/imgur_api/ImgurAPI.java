@@ -20,16 +20,16 @@ import retrofit.http.Path;
 public interface ImgurAPI {
 
     @GET("/album/{id}")
-    void getAlbumInfo(@Path("id") int id,
+    void getAlbumInfo(@Path("id") String id,
                       Callback<Album> cb);
 
     @GET("/album/{id}/images")
-    void getAlbumImages(@Path("id") int albumId,
+    void getAlbumImages(@Path("id") String albumId,
                         Callback<List<Image>> cb);
 
     @GET("/album/{id}/image/{id}")
-    void getAlbumImage(@Path("id") int albumId,
-                       @Path("id") int imageId,
+    void getAlbumImage(@Path("id") String albumId,
+                       @Path("id") String imageId,
                        Callback<Image> cb);
 
     @POST("/album")
