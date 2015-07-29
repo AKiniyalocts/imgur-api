@@ -109,7 +109,7 @@ public class Album {
     }
 
     public AlbumPrivacy getPrivacyEnum() {
-        return Enum.valueOf(AlbumPrivacy.class, privacy);
+        return Enum.valueOf(AlbumPrivacy.class, privacy.toUpperCase());
     }
 
     //// TODO: 29.07.15 Set Privacy as enum will be more useful for an user
@@ -123,7 +123,7 @@ public class Album {
     }
 
     public AlbumLayout getLayoutEnum() {
-        return Enum.valueOf(AlbumLayout.class, layout);
+        return Enum.valueOf(AlbumLayout.class, layout.toUpperCase());
     }
 
     //// TODO: 29.07.15 Set Layout as enum will be more useful for an user,
