@@ -8,6 +8,7 @@ import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
@@ -39,4 +40,11 @@ public interface ImgurAPI {
     void updateAlbum(@Path("album") String idOrDeleteHash,
                      @Body com.akiniyalocts.imgur_api.model.post.Album album,
                      Callback<Basic> cb);
+
+    @DELETE("/album/{album}")
+    void deleteAlbum(@Path("album") String idOrDeleteHash,
+                     Callback<Basic> cb);
+
+    @POST("/album/{id}/favorite")
+    void favoriteAlbum(@Path("id") String albumId, Callback<Basic> cb);
 }

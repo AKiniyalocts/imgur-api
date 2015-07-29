@@ -135,7 +135,7 @@ public class ImgurClient {
      * @param album post object of an album
      * @param cb    callback
      */
-    public void createAlbum(@NonNull com.akiniyalocts.imgur_api.model.post.Album album, Callback<Basic> cb) {
+    public void createAlbum(@NonNull com.akiniyalocts.imgur_api.model.post.Album album, @NonNull Callback<Basic> cb) {
         getImgurAPI().createAlbum(album, cb);
     }
 
@@ -145,7 +145,7 @@ public class ImgurClient {
      * @param album album
      * @param cb    callback
      */
-    public void updateAlbum(@NonNull Album album, Callback<Basic> cb) {
+    public void updateAlbum(@NonNull Album album, @NonNull Callback<Basic> cb) {
         //Convert Album to post.Album
         com.akiniyalocts.imgur_api.model.post.Album postAlbum =
                 new com.akiniyalocts.imgur_api.model.post.Album(album);
@@ -158,5 +158,32 @@ public class ImgurClient {
         } else {
             getImgurAPI().updateAlbum(album.getDeletehash(), postAlbum, cb);
         }
+    }
+
+    /**
+     * Deletes an album
+     *
+     * @param album album
+     * @param cb    callback
+     */
+    public void deleteAlbum(@NonNull Album album, @NonNull Callback<Basic> cb) {
+        //anonymously created albums have a deletehash, which can be used
+        //to update and delete an album
+        String deleteHash = album.getDeletehash();
+        if (deleteHash.isEmpty()) {
+            getImgurAPI().deleteAlbum(album.getId(), cb);
+        } else {
+            getImgurAPI().deleteAlbum(album.getDeletehash(), cb);
+        }
+    }
+
+    /**
+     * Favorites an album
+     *
+     * @param albumId albumId
+     * @param cb      callback
+     */
+    public void favoriteAlbum(@NonNull String albumId, @NonNull Callback<Basic> cb) {
+        getImgurAPI().favoriteAlbum(albumId, cb);
     }
 }
