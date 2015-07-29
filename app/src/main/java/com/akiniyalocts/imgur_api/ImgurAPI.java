@@ -53,4 +53,14 @@ public interface ImgurAPI {
     void setAlbumImages(@Path("album") String idOrDeleteHash,
                         @Body String[] imageIds,
                         Callback<Basic> cb);
+
+    @PUT("/album/{album}/add")
+    void addImagesToAlbum(@Path("album") String idOrDeleteHash,
+                          @Body String[] imageIds,
+                          Callback<Basic> cb);
+
+    @DELETE("/album/{album}/remove_images")
+    void deleteImagesFromAlbum(@Path("album") String idOrDeleteHash,
+                               @Body String[] imageIds,
+                               Callback<Basic> cb);
 }

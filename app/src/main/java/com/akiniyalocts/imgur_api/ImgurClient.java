@@ -125,7 +125,9 @@ public class ImgurClient {
      * @param cb      callback
      * @see com.akiniyalocts.imgur_api.model.Image
      */
-    public void getAlbumImage(int albumId, int imageId, @NonNull Callback<Image> cb) {
+    public void getAlbumImage(int albumId,
+                              int imageId,
+                              @NonNull Callback<Image> cb) {
         getImgurAPI().getAlbumImage(albumId, imageId, cb);
     }
 
@@ -135,9 +137,12 @@ public class ImgurClient {
      * @param album post object of an album
      * @param cb    callback
      */
-    public void createAlbum(@NonNull com.akiniyalocts.imgur_api.model.post.Album album, @NonNull Callback<Basic> cb) {
+    public void createAlbum(@NonNull com.akiniyalocts.imgur_api.model.post.Album album,
+                            @NonNull Callback<Basic> cb) {
         getImgurAPI().createAlbum(album, cb);
     }
+
+    //// TODO: 29.07.15 Remove duplicate code checking for deletehash
 
     /**
      * Updates an album
@@ -159,6 +164,8 @@ public class ImgurClient {
             getImgurAPI().updateAlbum(album.getDeletehash(), postAlbum, cb);
         }
     }
+
+    //// TODO: 29.07.15 Remove duplicate code checking for deletehash
 
     /**
      * Deletes an album
@@ -187,6 +194,8 @@ public class ImgurClient {
         getImgurAPI().favoriteAlbum(albumId, cb);
     }
 
+    //// TODO: 29.07.15 Remove duplicate code checking for deletehash
+
     /**
      * Sets images for an album
      *
@@ -194,7 +203,9 @@ public class ImgurClient {
      * @param imageIds imageIds
      * @param cb       callback
      */
-    public void setAlbumImages(@NonNull Album album, @NonNull String[] imageIds, @NonNull Callback<Basic> cb) {
+    public void setAlbumImages(@NonNull Album album,
+                               @NonNull String[] imageIds,
+                               @NonNull Callback<Basic> cb) {
         //anonymously created albums have a deletehash, which can be used
         //to update and delete an album
         String deleteHash = album.getDeletehash();
@@ -204,6 +215,8 @@ public class ImgurClient {
             getImgurAPI().setAlbumImages(album.getDeletehash(), imageIds, cb);
         }
     }
+
+    //// TODO: 29.07.15 Remove duplicate code checking for deletehash
 
     /**
      * Sets images for an album
@@ -219,6 +232,50 @@ public class ImgurClient {
             getImgurAPI().setAlbumImages(album.getId(), album.getImageIds(), cb);
         } else {
             getImgurAPI().setAlbumImages(album.getDeletehash(), album.getImageIds(), cb);
+        }
+    }
+
+    //// TODO: 29.07.15 Remove duplicate code checking for deletehash
+
+    /**
+     * Add images to album
+     *
+     * @param album    album object
+     * @param imageIds image ids which will be added to the album
+     * @param cb       callback
+     */
+    public void addImagesToAlbum(@NonNull Album album, @
+            NonNull String[] imageIds,
+                                 @NonNull Callback<Basic> cb) {
+        //anonymously created albums have a deletehash, which can be used
+        //to update and delete an album
+        String deleteHash = album.getDeletehash();
+        if (deleteHash.isEmpty()) {
+            getImgurAPI().addImagesToAlbum(album.getId(), imageIds, cb);
+        } else {
+            getImgurAPI().addImagesToAlbum(album.getDeletehash(), imageIds, cb);
+        }
+    }
+
+    //// TODO: 29.07.15 Remove duplicate code checking for deletehash
+
+    /**
+     * Add images to album
+     *
+     * @param album    album object
+     * @param imageIds image ids which will be removed from the album
+     * @param cb       callback
+     */
+    public void deleteImagesFromAlbum(@NonNull Album album,
+                                      @NonNull String[] imageIds,
+                                      @NonNull Callback<Basic> cb) {
+        //anonymously created albums have a deletehash, which can be used
+        //to update and delete an album
+        String deleteHash = album.getDeletehash();
+        if (deleteHash.isEmpty()) {
+            getImgurAPI().deleteImagesFromAlbum(album.getId(), imageIds, cb);
+        } else {
+            getImgurAPI().deleteImagesFromAlbum(album.getDeletehash(), imageIds, cb);
         }
     }
 }
