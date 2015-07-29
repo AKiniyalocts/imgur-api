@@ -46,5 +46,11 @@ public interface ImgurAPI {
                      Callback<Basic> cb);
 
     @POST("/album/{id}/favorite")
-    void favoriteAlbum(@Path("id") String albumId, Callback<Basic> cb);
+    void favoriteAlbum(@Path("id") String albumId,
+                       Callback<Basic> cb);
+
+    @POST("/album/{album}")
+    void setAlbumImages(@Path("album") String idOrDeleteHash,
+                        @Body String[] imageIds,
+                        Callback<Basic> cb);
 }

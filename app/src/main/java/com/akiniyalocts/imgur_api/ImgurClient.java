@@ -186,4 +186,39 @@ public class ImgurClient {
     public void favoriteAlbum(@NonNull String albumId, @NonNull Callback<Basic> cb) {
         getImgurAPI().favoriteAlbum(albumId, cb);
     }
+
+    /**
+     * Sets images for an album
+     *
+     * @param album    album object
+     * @param imageIds imageIds
+     * @param cb       callback
+     */
+    public void setAlbumImages(@NonNull Album album, @NonNull String[] imageIds, @NonNull Callback<Basic> cb) {
+        //anonymously created albums have a deletehash, which can be used
+        //to update and delete an album
+        String deleteHash = album.getDeletehash();
+        if (deleteHash.isEmpty()) {
+            getImgurAPI().setAlbumImages(album.getId(), imageIds, cb);
+        } else {
+            getImgurAPI().setAlbumImages(album.getDeletehash(), imageIds, cb);
+        }
+    }
+
+    /**
+     * Sets images for an album
+     *
+     * @param album album object which includes imageIds
+     * @param cb    callback
+     */
+    public void setAlbumImages(@NonNull Album album, @NonNull Callback<Basic> cb) {
+        //anonymously created albums have a deletehash, which can be used
+        //to update and delete an album
+        String deleteHash = album.getDeletehash();
+        if (deleteHash.isEmpty()) {
+            getImgurAPI().setAlbumImages(album.getId(), album.getImageIds(), cb);
+        } else {
+            getImgurAPI().setAlbumImages(album.getDeletehash(), album.getImageIds(), cb);
+        }
+    }
 }
