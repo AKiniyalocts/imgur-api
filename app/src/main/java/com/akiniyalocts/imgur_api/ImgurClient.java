@@ -30,9 +30,12 @@ public class ImgurClient {
     /**
      * Use to obtain instance of ImgurClient
      * Instance will be created if it was not created previously
+     *
+     * @param imgurClientID Client-ID provided from imgur
      */
-    public static ImgurClient getInstance() {
+    public static ImgurClient getInstance(String imgurClientID) {
         if (instance == null) {
+            Constants.setClientId(imgurClientID);
             instance = new ImgurClient();
         }
         return instance;
@@ -49,7 +52,7 @@ public class ImgurClient {
             RequestInterceptor requestInterceptor = new RequestInterceptor() {
                 @Override
                 public void intercept(RequestFacade request) {
-                    request.addHeader(Constants.AUTH_CLIENT, Constants.CLIENT_ID);
+                    request.addHeader(Constants.AUTH_CLIENT, Constants.getClientId());
                 }
             };
 
