@@ -2,9 +2,11 @@ package com.akiniyalocts.imgur_api.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.akiniyalocts.imgur_api.Constants;
 import com.akiniyalocts.imgur_api.Imgur;
@@ -22,8 +24,6 @@ public class ImgurLoginActivity extends AppCompatActivity{
     private static final Pattern refreshTokenPattern = Pattern.compile("refresh_token=([^&]*)");
     private static final Pattern expiresInPattern = Pattern.compile("expires_in=(\\d+)");
 
-    private WebView mWebView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +33,11 @@ public class ImgurLoginActivity extends AppCompatActivity{
     }
 
     private void initWebView(){
-        mWebView = (WebView)findViewById(R.id.imgur_login_webview);
+
+        WebView mWebView = (WebView)findViewById(R.id.imgur_login_webview);
 
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
-
-        aLog.w(TAG, Constants.getGeneratedAuthURL());
 
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
@@ -63,13 +61,19 @@ public class ImgurLoginActivity extends AppCompatActivity{
                     m.find();
                     long expiresIn = Long.valueOf(m.group(1));
 
-                    //TODO: Save tokens to local storage somewhere ?
-                    aLog.w(
-                            TAG,
-                            "Refresh token: " + refreshToken + "\n" +
-                                    "Acccess token: " + accessToken + "\n" +
-                                    "Expires in: " + expiresIn
-                    );
+                    if (tokensURL) {
+
+                        ImgurLoginActivity.this.finish();
+                        Toast.makeText(ImgurLoginActivity.this, "", Toast.LENGTH_LONG).show();
+
+                        //TODO: Save tokens to local storage somewhere ?
+                        Log.w(
+                                TAG,
+                                "Refresh token: " + refreshToken + "\n" +
+                                        "Acccess token: " + accessToken + "\n" +
+                                        "Expires in: " + expiresIn
+                        );
+                    }
 
                 }
                 return tokensURL;
