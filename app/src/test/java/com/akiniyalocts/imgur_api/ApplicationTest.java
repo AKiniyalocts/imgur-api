@@ -1,6 +1,7 @@
 package com.akiniyalocts.imgur_api;
 
 import com.akiniyalocts.imgur_api.model.Album;
+import com.akiniyalocts.imgur_api.model.Response;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -26,7 +27,7 @@ public class ApplicationTest {
     private ImgurAPI mockApi;
 
     @Captor
-    private ArgumentCaptor<Callback<Album>> cb;
+    private ArgumentCaptor<Callback<Response<Album>>> cb;
 
     @Before
     public void setUp() {
@@ -36,12 +37,14 @@ public class ApplicationTest {
     @Test
     @Ignore //fuck this shit :)
     public void testShouldCallSuccessOnCallbackWithAlbum() throws Exception {
-        //Mockito.verify(mockApi).getAlbumInfo(Mockito.anyString(), cb.capture());
+        Mockito.verify(mockApi).getAlbumInfo(Mockito.anyString(), cb.capture());
         String fu = Mockito.anyString();
+        Response<Album> response = new Response<>();
         Album album = Mockito.mock(Album.class, Answers.RETURNS_DEEP_STUBS);
+        response.data = album;
         mockApi.getAlbumInfo(fu, cb.capture());
         verify(mockApi).getAlbumInfo(fu, cb.capture());
-        cb.getValue().success(album, null);
+        cb.getValue().success(response, null);
 
         assertEquals(album.getId().isEmpty(), false);
 

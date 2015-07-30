@@ -1,8 +1,8 @@
 package com.akiniyalocts.imgur_api;
 
 import com.akiniyalocts.imgur_api.model.Album;
-import com.akiniyalocts.imgur_api.model.Basic;
 import com.akiniyalocts.imgur_api.model.Image;
+import com.akiniyalocts.imgur_api.model.Response;
 
 import java.util.List;
 
@@ -21,46 +21,46 @@ public interface ImgurAPI {
 
     @GET("/album/{id}")
     void getAlbumInfo(@Path("id") String id,
-                      Callback<Album> cb);
+                      Callback<Response<Album>> cb);
 
     @GET("/album/{id}/images")
     void getAlbumImages(@Path("id") String albumId,
-                        Callback<List<Image>> cb);
+                        Callback<Response<List<Image>>> cb);
 
     @GET("/album/{id}/image/{id}")
     void getAlbumImage(@Path("id") String albumId,
                        @Path("id") String imageId,
-                       Callback<Image> cb);
+                       Callback<Response<Image>> cb);
 
     @POST("/album")
     void createAlbum(@Body com.akiniyalocts.imgur_api.model.post.Album album,
-                     Callback<Basic> cb);
+                     Callback<Response> cb);
 
     @PUT("/album/{album}")
     void updateAlbum(@Path("album") String idOrDeleteHash,
                      @Body com.akiniyalocts.imgur_api.model.post.Album album,
-                     Callback<Basic> cb);
+                     Callback<Response> cb);
 
     @DELETE("/album/{album}")
     void deleteAlbum(@Path("album") String idOrDeleteHash,
-                     Callback<Basic> cb);
+                     Callback<Response> cb);
 
     @POST("/album/{id}/favorite")
     void favoriteAlbum(@Path("id") String albumId,
-                       Callback<Basic> cb);
+                       Callback<Response> cb);
 
     @POST("/album/{album}")
     void setAlbumImages(@Path("album") String idOrDeleteHash,
                         @Body String[] imageIds,
-                        Callback<Basic> cb);
+                        Callback<Response> cb);
 
     @PUT("/album/{album}/add")
     void addImagesToAlbum(@Path("album") String idOrDeleteHash,
                           @Body String[] imageIds,
-                          Callback<Basic> cb);
+                          Callback<Response> cb);
 
     @DELETE("/album/{album}/remove_images")
     void deleteImagesFromAlbum(@Path("album") String idOrDeleteHash,
                                @Body String[] imageIds,
-                               Callback<Basic> cb);
+                               Callback<Response> cb);
 }

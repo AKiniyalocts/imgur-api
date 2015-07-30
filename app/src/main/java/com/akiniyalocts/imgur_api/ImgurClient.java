@@ -3,8 +3,8 @@ package com.akiniyalocts.imgur_api;
 import android.support.annotation.NonNull;
 
 import com.akiniyalocts.imgur_api.model.Album;
-import com.akiniyalocts.imgur_api.model.Basic;
 import com.akiniyalocts.imgur_api.model.Image;
+import com.akiniyalocts.imgur_api.model.Response;
 
 import java.util.List;
 
@@ -103,7 +103,7 @@ public class ImgurClient {
      * @param cb callback
      * @see com.akiniyalocts.imgur_api.model.Album
      */
-    public void getAlbumInfo(@NonNull String id, @NonNull Callback<Album> cb) {
+    public void getAlbumInfo(@NonNull String id, @NonNull Callback<Response<Album>> cb) {
         getImgurAPI().getAlbumInfo(id, cb);
     }
 
@@ -114,7 +114,7 @@ public class ImgurClient {
      * @param cb      callback
      * @see com.akiniyalocts.imgur_api.model.Image
      */
-    public void getAlbumImages(@NonNull String albumId, @NonNull Callback<List<Image>> cb) {
+    public void getAlbumImages(@NonNull String albumId, @NonNull Callback<Response<List<Image>>> cb) {
         getImgurAPI().getAlbumImages(albumId, cb);
     }
 
@@ -128,7 +128,7 @@ public class ImgurClient {
      */
     public void getAlbumImage(@NonNull String albumId,
                               @NonNull String imageId,
-                              @NonNull Callback<Image> cb) {
+                              @NonNull Callback<Response<Image>> cb) {
         getImgurAPI().getAlbumImage(albumId, imageId, cb);
     }
 
@@ -139,7 +139,7 @@ public class ImgurClient {
      * @param cb    callback
      */
     public void createAlbum(@NonNull com.akiniyalocts.imgur_api.model.post.Album album,
-                            @NonNull Callback<Basic> cb) {
+                            @NonNull Callback<Response> cb) {
         getImgurAPI().createAlbum(album, cb);
     }
 
@@ -151,7 +151,7 @@ public class ImgurClient {
      * @param album album
      * @param cb    callback
      */
-    public void updateAlbum(@NonNull Album album, @NonNull Callback<Basic> cb) {
+    public void updateAlbum(@NonNull Album album, @NonNull Callback<Response> cb) {
         //Convert Album to post.Album
         com.akiniyalocts.imgur_api.model.post.Album postAlbum =
                 new com.akiniyalocts.imgur_api.model.post.Album(album);
@@ -174,7 +174,7 @@ public class ImgurClient {
      * @param album album
      * @param cb    callback
      */
-    public void deleteAlbum(@NonNull Album album, @NonNull Callback<Basic> cb) {
+    public void deleteAlbum(@NonNull Album album, @NonNull Callback<Response> cb) {
         //anonymously created albums have a deletehash, which can be used
         //to update and delete an album
         String deleteHash = album.getDeletehash();
@@ -191,7 +191,7 @@ public class ImgurClient {
      * @param albumId albumId
      * @param cb      callback
      */
-    public void favoriteAlbum(@NonNull String albumId, @NonNull Callback<Basic> cb) {
+    public void favoriteAlbum(@NonNull String albumId, @NonNull Callback<Response> cb) {
         getImgurAPI().favoriteAlbum(albumId, cb);
     }
 
@@ -206,7 +206,7 @@ public class ImgurClient {
      */
     public void setAlbumImages(@NonNull Album album,
                                @NonNull String[] imageIds,
-                               @NonNull Callback<Basic> cb) {
+                               @NonNull Callback<Response> cb) {
         //anonymously created albums have a deletehash, which can be used
         //to update and delete an album
         String deleteHash = album.getDeletehash();
@@ -225,7 +225,7 @@ public class ImgurClient {
      * @param album album object which includes imageIds
      * @param cb    callback
      */
-    public void setAlbumImages(@NonNull Album album, @NonNull Callback<Basic> cb) {
+    public void setAlbumImages(@NonNull Album album, @NonNull Callback<Response> cb) {
         //anonymously created albums have a deletehash, which can be used
         //to update and delete an album
         String deleteHash = album.getDeletehash();
@@ -247,7 +247,7 @@ public class ImgurClient {
      */
     public void addImagesToAlbum(@NonNull Album album,
                                  @NonNull String[] imageIds,
-                                 @NonNull Callback<Basic> cb) {
+                                 @NonNull Callback<Response> cb) {
         //anonymously created albums have a deletehash, which can be used
         //to update and delete an album
         String deleteHash = album.getDeletehash();
@@ -269,7 +269,7 @@ public class ImgurClient {
      */
     public void deleteImagesFromAlbum(@NonNull Album album,
                                       @NonNull String[] imageIds,
-                                      @NonNull Callback<Basic> cb) {
+                                      @NonNull Callback<Response> cb) {
         //anonymously created albums have a deletehash, which can be used
         //to update and delete an album
         String deleteHash = album.getDeletehash();
