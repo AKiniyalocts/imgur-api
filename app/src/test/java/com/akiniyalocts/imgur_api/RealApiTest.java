@@ -75,6 +75,33 @@ public class RealApiTest {
         assertEquals(GetAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, true);
     }
 
+    @Test
+    public void testAlbumImageShouldBeLoaded() throws InterruptedException {
+        MyCallback<com.akiniyalocts.imgur_api.model.Response<Image>> cb
+                = new MyCallback<>(GetAlbumImagesResult);
+
+        client.getAlbumImage("VZtsj", "VpXOjOE", cb);
+
+        Thread.sleep(3000);
+
+        assertEquals(GetAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
+        assertEquals(GetAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
+    }
+
+    @Test
+    public void testAlbumImageShouldNotBeLoaded() throws InterruptedException {
+        MyCallback<com.akiniyalocts.imgur_api.model.Response<Image>> cb
+                = new MyCallback<>(GetAlbumImagesResult);
+
+        client.getAlbumImage("VZtsj", "xxxxx", cb);
+
+        Thread.sleep(3000);
+
+        //this is wrong! But the api returns status code 200 and success!
+        assertEquals(GetAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
+        //assertEquals(GetAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, true);
+    }
+
     private class MyCallback<T> implements Callback<T> {
 
         public Result result;

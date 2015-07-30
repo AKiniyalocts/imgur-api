@@ -125,6 +125,9 @@ public class ImgurClient {
      * @param imageId id of the image in the album
      * @param cb      callback
      * @see com.akiniyalocts.imgur_api.model.Image
+     * @deprecated The API method will return a wrong response if the image
+     * is not found within the album (success & status 200) this is no good practice.
+     * Maybe you should use getImage()
      */
     public void getAlbumImage(@NonNull String albumId,
                               @NonNull String imageId,
