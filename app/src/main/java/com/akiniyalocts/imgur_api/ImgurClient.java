@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.akiniyalocts.imgur_api.model.Album;
 import com.akiniyalocts.imgur_api.model.Image;
 import com.akiniyalocts.imgur_api.model.Response;
+import com.akiniyalocts.imgur_api.model.post.AlbumResponse;
 
 import java.util.List;
 
@@ -142,7 +143,7 @@ public class ImgurClient {
      * @param cb    callback
      */
     public void createAlbum(@NonNull com.akiniyalocts.imgur_api.model.post.Album album,
-                            @NonNull Callback<Response> cb) {
+                            @NonNull Callback<Response<AlbumResponse>> cb) {
         getImgurAPI().createAlbum(album, cb);
     }
 

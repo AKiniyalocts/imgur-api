@@ -3,6 +3,7 @@ package com.akiniyalocts.imgur_api;
 import com.akiniyalocts.imgur_api.model.Album;
 import com.akiniyalocts.imgur_api.model.Image;
 import com.akiniyalocts.imgur_api.model.Response;
+import com.akiniyalocts.imgur_api.model.post.AlbumResponse;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public interface ImgurAPI {
 
     @POST("/album")
     void createAlbum(@Body com.akiniyalocts.imgur_api.model.post.Album album,
-                     Callback<Response> cb);
+                     Callback<Response<AlbumResponse>> cb);
 
     @PUT("/album/{album}")
     void updateAlbum(@Path("album") String idOrDeleteHash,
