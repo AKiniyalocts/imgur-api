@@ -155,37 +155,55 @@ public class ImgurClient {
      * @param album album
      * @param cb    callback
      */
-    public void updateAlbum(@NonNull Album album, @NonNull Callback<Response> cb) {
-        //Convert Album to post.Album
+    public void updateAlbum(@NonNull Album album,
+                            @NonNull Callback<Response> cb) {
         com.akiniyalocts.imgur_api.model.post.Album postAlbum =
                 new com.akiniyalocts.imgur_api.model.post.Album(album);
+        updateAlbum(postAlbum, album.getId(), album.getDeletehash(), cb);
+    }
 
+    /**
+     * Updates an album, provide either deletehash or album id
+     *
+     * @param album      album
+     * @param albumId    id of album
+     * @param deleteHash deletehash of album
+     * @param cb         callback
+     */
+    public void updateAlbum(@NonNull com.akiniyalocts.imgur_api.model.post.Album album,
+                            String albumId,
+                            String deleteHash,
+                            @NonNull Callback<Response> cb) {
+
+        if (Util.isNullOrEmpty(albumId) && Util.isNullOrEmpty(deleteHash))
+            throw new IllegalArgumentException("AlbumId or Deletehash must be supplied");
         //anonymously created albums have a deletehash, which can be used
         //to update and delete an album
-        String deleteHash = album.getDeletehash();
-        if (deleteHash.isEmpty()) {
-            getImgurAPI().updateAlbum(album.getId(), postAlbum, cb);
+        if (Util.isNotNullOrEmpty(albumId)) {
+            getImgurAPI().updateAlbum(albumId, album, cb);
         } else {
-            getImgurAPI().updateAlbum(album.getDeletehash(), postAlbum, cb);
+            getImgurAPI().updateAlbum(deleteHash, album, cb);
         }
     }
 
     //// TODO: 29.07.15 Remove duplicate code checking for deletehash
 
     /**
-     * Deletes an album
+     * Deletes an album, provide on of both ids
      *
-     * @param album album
-     * @param cb    callback
+     * @param albumId    album id
+     * @param deleteHash deletehash
+     * @param cb         callback
      */
-    public void deleteAlbum(@NonNull Album album, @NonNull Callback<Response> cb) {
+    public void deleteAlbum(String albumId, String deleteHash, @NonNull Callback<Response> cb) {
         //anonymously created albums have a deletehash, which can be used
         //to update and delete an album
-        String deleteHash = album.getDeletehash();
-        if (deleteHash.isEmpty()) {
-            getImgurAPI().deleteAlbum(album.getId(), cb);
+        if (Util.isNullOrEmpty(albumId) && Util.isNullOrEmpty(deleteHash))
+            throw new IllegalArgumentException("AlbumId or Deletehash must be supplied");
+        if (Util.isNotNullOrEmpty(deleteHash)) {
+            getImgurAPI().deleteAlbum(deleteHash, cb);
         } else {
-            getImgurAPI().deleteAlbum(album.getDeletehash(), cb);
+            getImgurAPI().deleteAlbum(albumId, cb);
         }
     }
 
