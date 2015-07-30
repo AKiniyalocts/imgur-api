@@ -1,5 +1,6 @@
-package com.akiniyalocts.imgur_api;
+package com.akiniyalocts.imgur_api.realapi;
 
+import com.akiniyalocts.imgur_api.ImgurClient;
 import com.akiniyalocts.imgur_api.model.Album;
 import com.akiniyalocts.imgur_api.model.Image;
 import com.akiniyalocts.imgur_api.model.enums.AlbumLayout;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Well, some "real life" testing so we dont need an activity which executes the actions every time.
  */
-public class RealApiTest {
+public class AlbumApiTest {
 
     private ImgurClient client = ImgurClient.getInstance("3efbb6d75f6524f");
     private Result GetAlbumInfoResult = new Result();
