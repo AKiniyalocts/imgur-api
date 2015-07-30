@@ -27,9 +27,9 @@ public interface ImgurAPI {
     void getAlbumImages(@Path("id") String albumId,
                         Callback<Response<List<Image>>> cb);
 
-    @GET("/album/{id}/image/{id}")
-    void getAlbumImage(@Path("id") String albumId,
-                       @Path("id") String imageId,
+    @GET("/album/{albumId}/image/{imageId}")
+    void getAlbumImage(@Path("albumId") String albumId,
+                       @Path("imageId") String imageId,
                        Callback<Response<Image>> cb);
 
     @POST("/album")
