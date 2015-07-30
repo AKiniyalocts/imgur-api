@@ -53,7 +53,8 @@ public class ImgurClient {
             RequestInterceptor requestInterceptor = new RequestInterceptor() {
                 @Override
                 public void intercept(RequestFacade request) {
-                    request.addHeader(Constants.AUTH_CLIENT, Constants.getClientId());
+                    request.addHeader("Authorization", Constants.AUTH_CLIENT + Constants.getClientId());
+                    request.addHeader("Accept", "application/json");
                 }
             };
 
