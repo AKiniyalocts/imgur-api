@@ -29,12 +29,15 @@ public class AlbumApiTest {
     private Result CreateAlbumResult = new Result();
     private Result UpdateAlbumResult = new Result();
     private Result DeleteAlbumResult = new Result();
+    private Result SetAlbumImagesResult = new Result();
+    private Result AddAlbumImagesResult = new Result();
+    private Result DeleteAlbumImagesResult = new Result();
 
     private static final int TIMEOUT = 3500;
     public String mAlbumDeleteHash = "";
 
     @Test
-    public void testAlbumShouldBeGetAndSerialized() throws InterruptedException {
+    public void GetAlbumInfo_Should_Succeed_Album_Exists() throws InterruptedException {
         MyCallback<com.akiniyalocts.imgur_api.model.Response<Album>> cb
                 = new MyCallback<>(GetAlbumInfoResult);
 
@@ -47,7 +50,7 @@ public class AlbumApiTest {
     }
 
     @Test
-    public void testAlbumShouldBeFound() throws InterruptedException {
+    public void getAlbumInfo_Should_Succeed_Album_Not_Existant() throws InterruptedException {
         MyCallback<com.akiniyalocts.imgur_api.model.Response<Album>> cb
                 = new MyCallback<>(GetAlbumInfoResult);
 
@@ -60,7 +63,7 @@ public class AlbumApiTest {
     }
 
     @Test
-    public void testAlbumImagesShouldBeLoaded() throws InterruptedException {
+    public void getAlbumImages_Should_Load_Images() throws InterruptedException {
         MyCallback<com.akiniyalocts.imgur_api.model.Response<List<Image>>> cb
                 = new MyCallback<>(GetAlbumImagesResult);
 
@@ -73,7 +76,7 @@ public class AlbumApiTest {
     }
 
     @Test
-    public void testAlbumImagesShouldNotBeLoaded() throws InterruptedException {
+    public void getAlbumImages_Should_Fail_Album_Not_Found() throws InterruptedException {
         MyCallback<com.akiniyalocts.imgur_api.model.Response<List<Image>>> cb
                 = new MyCallback<>(GetAlbumImagesResult);
 
@@ -86,7 +89,7 @@ public class AlbumApiTest {
     }
 
     @Test
-    public void testAlbumImageShouldBeLoaded() throws InterruptedException {
+    public void getAlbumImage_Should_Succeed_Image_And_Album_Found() throws InterruptedException {
         MyCallback<com.akiniyalocts.imgur_api.model.Response<Image>> cb
                 = new MyCallback<>(GetAlbumImageResult);
 
@@ -100,7 +103,7 @@ public class AlbumApiTest {
 
     @Test
     @Ignore
-    public void testAlbumImageShouldNotBeLoaded() throws InterruptedException {
+    public void getAlbumImage_Should_Succeed_Image_Not_Found() throws InterruptedException {
         MyCallback<com.akiniyalocts.imgur_api.model.Response<Image>> cb
                 = new MyCallback<>(GetAlbumImagesResult);
 
@@ -114,7 +117,7 @@ public class AlbumApiTest {
     }
 
     @Test
-    public void testAlbumShouldBeCreated() throws InterruptedException {
+    public void createAlbum_Should_Succeed() throws InterruptedException {
         com.akiniyalocts.imgur_api.model.post.Album album = new com.akiniyalocts.imgur_api.model.post.Album();
         album.setTitle("some title");
         album.setDescription("some description");
@@ -131,9 +134,9 @@ public class AlbumApiTest {
     }
 
     @Test
-    public void testAlbumShouldBeUpdated() throws InterruptedException {
+    public void updateAlbum_Should_Succeed() throws InterruptedException {
         //Your test is bad and you should feel bad.
-        if (mAlbumDeleteHash.isEmpty()) testAlbumShouldBeCreated();
+        if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
         com.akiniyalocts.imgur_api.model.post.Album album = new com.akiniyalocts.imgur_api.model.post.Album();
         album.setTitle("some title2");
         album.setDescription("some description2");
@@ -151,7 +154,7 @@ public class AlbumApiTest {
     }
 
     @Test
-    public void testAlbumShouldNotBeUpdated() throws InterruptedException {
+    public void updateAlbum_Should_Fail_Album_Not_Found() throws InterruptedException {
         com.akiniyalocts.imgur_api.model.post.Album album = new com.akiniyalocts.imgur_api.model.post.Album();
         album.setTitle("some title2");
 
@@ -167,7 +170,7 @@ public class AlbumApiTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testAlbumShouldNotBeUpdatedException() {
+    public void updateAlbum_Should_Fail_Exception_No_Id_And_Deletehash_Given() {
         com.akiniyalocts.imgur_api.model.post.Album album = new com.akiniyalocts.imgur_api.model.post.Album();
 
         MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
@@ -177,9 +180,9 @@ public class AlbumApiTest {
     }
 
     @Test
-    public void testAlbumShouldBeDeleted() throws InterruptedException {
+    public void deleteAlbum_Should_Succeed() throws InterruptedException {
         //Your test is bad and you should feel bad.
-        if (mAlbumDeleteHash.isEmpty()) testAlbumShouldBeCreated();
+        if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
 
         MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
                 = new MyCallback<>(DeleteAlbumResult);
@@ -193,7 +196,7 @@ public class AlbumApiTest {
     }
 
     @Test
-    public void testAlbumShouldNotBeDeleted() throws InterruptedException {
+    public void deleteAlbum_Should_Fail_Album_Not_Found() throws InterruptedException {
         MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
                 = new MyCallback<>(DeleteAlbumResult);
 
@@ -206,11 +209,145 @@ public class AlbumApiTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testAlbumShouldNotBeDeletedException() {
+    public void deleteAlbum_Should_Fail_Exception_No_AlbumId_And_Deletehash_Given() {
         MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
                 = new MyCallback<>(new Result());
 
         client.deleteAlbum(null, "", cb);
+    }
+
+    @Test
+    public void setAlbumImages_Should_Succeed() throws InterruptedException {
+        //Your test is bad and you should feel bad.
+        if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
+        MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
+                = new MyCallback<>(SetAlbumImagesResult);
+
+        String[] imageIds = new String[2];
+        imageIds[0] = "uZdYud1";
+        imageIds[1] = "G632tx0";
+
+        client.setAlbumImages("", mAlbumDeleteHash, imageIds, cb);
+
+        Thread.sleep(TIMEOUT);
+
+        assertEquals(SetAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
+        assertEquals(SetAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
+    }
+
+    @Test
+    public void setAlbumImages_Should_Succeed_Image_Not_Found() throws InterruptedException {
+        //Your test is bad and you should feel bad.
+        if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
+        MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
+                = new MyCallback<>(SetAlbumImagesResult);
+
+        String[] imageIds = new String[1];
+        imageIds[0] = "xxxx";
+
+        client.setAlbumImages("", mAlbumDeleteHash, imageIds, cb);
+
+        Thread.sleep(TIMEOUT);
+
+        assertEquals(SetAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
+        assertEquals(SetAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setAlbumImages_Should_Fail_Exception_No_AlbumId_And_Deletehash_Given() throws InterruptedException {
+        MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
+                = new MyCallback<>(SetAlbumImagesResult);
+        client.setAlbumImages("", "", new String[0], cb);
+    }
+
+    @Test
+    public void addImagesToAlbum_Should_Succeed() throws InterruptedException {
+        //Your test is bad and you should feel bad.
+        if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
+        MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
+                = new MyCallback<>(AddAlbumImagesResult);
+
+        String[] imageIds = new String[2];
+        imageIds[0] = "uZdYud1";
+        imageIds[1] = "G632tx0";
+
+        client.addImagesToAlbum("", mAlbumDeleteHash, imageIds, cb);
+
+        Thread.sleep(TIMEOUT);
+
+        assertEquals(AddAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
+        assertEquals(AddAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
+    }
+
+    @Test
+    public void addAlbumImages_Should_Succeed_Image_Not_Found() throws InterruptedException {
+        //Your test is bad and you should feel bad.
+        if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
+        MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
+                = new MyCallback<>(AddAlbumImagesResult);
+
+        String[] imageIds = new String[1];
+        imageIds[0] = "xxxx";
+
+        client.setAlbumImages("", mAlbumDeleteHash, imageIds, cb);
+
+        Thread.sleep(TIMEOUT);
+
+        assertEquals(AddAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
+        assertEquals(AddAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addImagesToAlbum_Should_Fail_Exception_No_AlbumId_And_Deletehash_Given()
+            throws InterruptedException {
+        MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
+                = new MyCallback<>(AddAlbumImagesResult);
+        client.addImagesToAlbum("", "", new String[0], cb);
+    }
+
+    @Test
+    public void deleteImagesFromAlbum_Should_Succeed() throws InterruptedException {
+        //Your test is bad and you should feel bad.
+        if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
+        MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
+                = new MyCallback<>(DeleteAlbumImagesResult);
+
+        String[] imageIds = new String[2];
+        imageIds[0] = "uZdYud1";
+        imageIds[1] = "G632tx0";
+
+        client.deleteImagesFromAlbum("", mAlbumDeleteHash, imageIds, cb);
+
+        Thread.sleep(TIMEOUT);
+
+        assertEquals(DeleteAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
+        assertEquals(DeleteAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
+    }
+
+    @Test
+    public void deleteImagesFromAlbum_Should_Succeed_Image_Not_Found() throws InterruptedException {
+        //Your test is bad and you should feel bad.
+        if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
+        MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
+                = new MyCallback<>(DeleteAlbumImagesResult);
+
+        String[] imageIds = new String[1];
+        imageIds[0] = "xxxx";
+
+        client.deleteImagesFromAlbum("", mAlbumDeleteHash, imageIds, cb);
+
+        Thread.sleep(TIMEOUT);
+
+        assertEquals(DeleteAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
+        assertEquals(DeleteAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void deleteImagesFromAlbum_Should_Fail_Exception_No_AlbumId_And_Deletehash_Given()
+            throws InterruptedException {
+        MyCallback<com.akiniyalocts.imgur_api.model.Response> cb
+                = new MyCallback<>(DeleteAlbumResult);
+        client.deleteImagesFromAlbum("", "", new String[0], cb);
     }
 
     private class AlbumCallback extends MyCallback<com.akiniyalocts.imgur_api.model.Response<AlbumResponse>> {

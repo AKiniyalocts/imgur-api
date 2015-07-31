@@ -239,6 +239,31 @@ public class ImgurClient {
         }
     }
 
+    /**
+     * Sets images for an album
+     * Provide either albumId or deleteHash
+     *
+     * @param albumId    album id
+     * @param deleteHash deletehash for album
+     * @param imageIds   imageIds
+     * @param cb         callback
+     */
+    public void setAlbumImages(String albumId,
+                               String deleteHash,
+                               @NonNull String[] imageIds,
+                               @NonNull Callback<Response> cb) {
+        //anonymously created albums have a deletehash, which can be used
+        //to update and delete an album
+        if (Util.isNullOrEmpty(albumId) && Util.isNullOrEmpty(deleteHash))
+            throw new IllegalArgumentException("AlbumId or Deletehash must be supplied");
+
+        if (Util.isNotNullOrEmpty(deleteHash)) {
+            getImgurAPI().setAlbumImages(deleteHash, imageIds, cb);
+        } else {
+            getImgurAPI().setAlbumImages(albumId, imageIds, cb);
+        }
+    }
+
     //// TODO: 29.07.15 Remove duplicate code checking for deletehash
 
     /**
@@ -280,6 +305,31 @@ public class ImgurClient {
         }
     }
 
+    /**
+     * Add images to an album
+     * Provide either albumId or deleteHash
+     *
+     * @param albumId    album id
+     * @param deleteHash deletehash for album
+     * @param imageIds   imageIds
+     * @param cb         callback
+     */
+    public void addImagesToAlbum(String albumId,
+                                 String deleteHash,
+                                 @NonNull String[] imageIds,
+                                 @NonNull Callback<Response> cb) {
+        //anonymously created albums have a deletehash, which can be used
+        //to update and delete an album
+        if (Util.isNullOrEmpty(albumId) && Util.isNullOrEmpty(deleteHash))
+            throw new IllegalArgumentException("AlbumId or Deletehash must be supplied");
+
+        if (Util.isNotNullOrEmpty(deleteHash)) {
+            getImgurAPI().addImagesToAlbum(deleteHash, imageIds, cb);
+        } else {
+            getImgurAPI().addImagesToAlbum(albumId, imageIds, cb);
+        }
+    }
+
     //// TODO: 29.07.15 Remove duplicate code checking for deletehash
 
     /**
@@ -299,6 +349,31 @@ public class ImgurClient {
             getImgurAPI().deleteImagesFromAlbum(album.getId(), imageIds, cb);
         } else {
             getImgurAPI().deleteImagesFromAlbum(album.getDeletehash(), imageIds, cb);
+        }
+    }
+
+    /**
+     * Deletes images from an album
+     * Provide either albumId or deleteHash
+     *
+     * @param albumId    album id
+     * @param deleteHash deletehash for album
+     * @param imageIds   imageIds
+     * @param cb         callback
+     */
+    public void deleteImagesFromAlbum(String albumId,
+                                      String deleteHash,
+                                      @NonNull String[] imageIds,
+                                      @NonNull Callback<Response> cb) {
+        //anonymously created albums have a deletehash, which can be used
+        //to update and delete an album
+        if (Util.isNullOrEmpty(albumId) && Util.isNullOrEmpty(deleteHash))
+            throw new IllegalArgumentException("AlbumId or Deletehash must be supplied");
+
+        if (Util.isNotNullOrEmpty(deleteHash)) {
+            getImgurAPI().deleteImagesFromAlbum(deleteHash, imageIds, cb);
+        } else {
+            getImgurAPI().deleteImagesFromAlbum(albumId, imageIds, cb);
         }
     }
 }
