@@ -5,7 +5,7 @@ import android.text.TextUtils;
 /**
  * Created by chja on 30.07.15.
  */
-class Util {
+public class Util {
 
     public static boolean isNotNullOrEmpty(String str) {
         return !isNullOrEmpty(str);

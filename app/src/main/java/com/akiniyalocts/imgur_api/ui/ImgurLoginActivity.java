@@ -11,18 +11,16 @@ import android.widget.Toast;
 import com.akiniyalocts.imgur_api.Constants;
 import com.akiniyalocts.imgur_api.Imgur;
 import com.akiniyalocts.imgur_api.ImgurClient;
+import com.akiniyalocts.imgur_api.PreferenceHelper;
 import com.akiniyalocts.imgur_api.R;
 import com.akiniyalocts.imgur_api.aLog;
+import com.akiniyalocts.imgur_api.auth.ImgurAuthorization;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ImgurLoginActivity extends AppCompatActivity{
     private static final String TAG = ImgurLoginActivity.class.getSimpleName();
-
-    private static final Pattern accessTokenPattern = Pattern.compile("access_token=([^&]*)");
-    private static final Pattern refreshTokenPattern = Pattern.compile("refresh_token=([^&]*)");
-    private static final Pattern expiresInPattern = Pattern.compile("expires_in=(\\d+)");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,35 +42,20 @@ public class ImgurLoginActivity extends AppCompatActivity{
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 boolean tokensURL = false;
 
+
                 if (url.startsWith(Constants.IMGUR_REDIRECT_URL)) {
                     tokensURL = true;
 
-                    Matcher m;
-
-                    m = refreshTokenPattern.matcher(url);
-                    m.find();
-                    String refreshToken = m.group(1);
-
-                    m = accessTokenPattern.matcher(url);
-                    m.find();
-                    String accessToken = m.group(1);
-
-                    m = expiresInPattern.matcher(url);
-                    m.find();
-                    long expiresIn = Long.valueOf(m.group(1));
 
                     if (tokensURL) {
 
-                        ImgurLoginActivity.this.finish();
-                        Toast.makeText(ImgurLoginActivity.this, "", Toast.LENGTH_LONG).show();
+                        ImgurAuthorization imgurAuthorization = new ImgurAuthorization(ImgurLoginActivity.this);
 
-                        //TODO: Save tokens to local storage somewhere ?
-                        Log.w(
-                                TAG,
-                                "Refresh token: " + refreshToken + "\n" +
-                                        "Acccess token: " + accessToken + "\n" +
-                                        "Expires in: " + expiresIn
-                        );
+                        imgurAuthorization.saveTokens(url);
+
+
+                        ImgurLoginActivity.this.finish();
+
                     }
 
                 }
