@@ -76,7 +76,7 @@ public class ImgurClient {
         }
     }
 
-    /**
+    /**p
      * @return our instance of our RestAdapter
      */
     private static RestAdapter getRestAdapter() {
@@ -386,7 +386,7 @@ public class ImgurClient {
      * @param imageFile file you wish to upload
      * @param cb Callback for response
      */
-    public void uploadImage(TypedFile imageFile, Callback<Response> cb){
+    public void uploadImage(TypedFile imageFile, Callback<Response<Image>> cb){
         getImgurAPI().anonymousImageUpload(imageFile, cb);
     }
 
@@ -395,7 +395,7 @@ public class ImgurClient {
      * @param base64Image base64 converted image
      * @param cb Callback for response
      */
-    public void uploadImage(Base64 base64Image, Callback<Response> cb){
+    public void uploadImage(Base64 base64Image, Callback<Response<Image>> cb){
         getImgurAPI().anonymousImageUpload(base64Image, cb);
     }
 
@@ -404,7 +404,7 @@ public class ImgurClient {
      * @param url url of image to upload
      * @param cb Callback for response
      */
-    public void uploadImage(@NonNull String url, Callback<Response> cb){
+    public void uploadImage(@NonNull String url, Callback<Response<Image>> cb){
         getImgurAPI().anonymousImageUpload(url, cb);
     }
 }
