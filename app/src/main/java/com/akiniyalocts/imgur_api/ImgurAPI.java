@@ -4,7 +4,7 @@ import android.util.Base64;
 
 import com.akiniyalocts.imgur_api.model.Album;
 import com.akiniyalocts.imgur_api.model.Image;
-import com.akiniyalocts.imgur_api.model.Response;
+import com.akiniyalocts.imgur_api.model.ImgurResponse;
 import com.akiniyalocts.imgur_api.model.post.AlbumResponse;
 
 import java.util.List;
@@ -15,6 +15,7 @@ import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 
 /**
@@ -24,58 +25,66 @@ public interface ImgurAPI {
 
     @GET("/album/{id}")
     void getAlbumInfo(@Path("id") String id,
-                      Callback<Response<Album>> cb);
+                      Callback<ImgurResponse<Album>> cb);
 
     @GET("/album/{id}/images")
     void getAlbumImages(@Path("id") String albumId,
-                        Callback<Response<List<Image>>> cb);
+                        Callback<ImgurResponse<List<Image>>> cb);
 
     @GET("/album/{albumId}/image/{imageId}")
     void getAlbumImage(@Path("albumId") String albumId,
                        @Path("imageId") String imageId,
-                       Callback<Response<Image>> cb);
+                       Callback<ImgurResponse<Image>> cb);
 
     @POST("/album")
     void createAlbum(@Body com.akiniyalocts.imgur_api.model.post.Album album,
-                     Callback<Response<AlbumResponse>> cb);
+                     Callback<ImgurResponse<AlbumResponse>> cb);
 
     @PUT("/album/{album}")
     void updateAlbum(@Path("album") String idOrDeleteHash,
                      @Body com.akiniyalocts.imgur_api.model.post.Album album,
-                     Callback<Response> cb);
+                     Callback<ImgurResponse> cb);
 
     @DELETE("/album/{album}")
     void deleteAlbum(@Path("album") String idOrDeleteHash,
-                     Callback<Response> cb);
+                     Callback<ImgurResponse> cb);
 
     @POST("/album/{id}/favorite")
     void favoriteAlbum(@Path("id") String albumId,
-                       Callback<Response> cb);
+                       Callback<ImgurResponse> cb);
 
     @POST("/album/{album}")
     void setAlbumImages(@Path("album") String idOrDeleteHash,
                         @Body String[] imageIds,
-                        Callback<Response> cb);
+                        Callback<ImgurResponse> cb);
 
     @PUT("/album/{album}/add")
     void addImagesToAlbum(@Path("album") String idOrDeleteHash,
                           @Body String[] imageIds,
-                          Callback<Response> cb);
+                          Callback<ImgurResponse> cb);
 
     @DELETE("/album/{album}/remove_images")
     void deleteImagesFromAlbum(@Path("album") String idOrDeleteHash,
                                @Body String[] imageIds,
-                               Callback<Response> cb);
+                               Callback<ImgurResponse> cb);
 
     @POST("/image")
     void anonymousImageUpload(@Body TypedFile imageFile,
-                                Callback<Response<Image>> cb);
+                              @Query("title") String title,
+                              @Query("description") String description,
+                              Callback<ImgurResponse<Image>> cb);
 
     @POST("/image")
     void anonymousImageUpload(@Body Base64 base64Image,
-                                Callback<Response<Image>> cb);
+                              @Query("title") String title,
+                              @Query("description") String description,
+                              Callback<ImgurResponse<Image>> cb);
 
     @POST("/image")
     void anonymousImageUpload(@Body String url,
-                                Callback<Response<Image>> cb);
+                              @Query("title") String title,
+                              @Query("description") String description,
+                              Callback<ImgurResponse<Image>> cb);
+
+
 }
