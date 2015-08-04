@@ -6,7 +6,6 @@ import com.akiniyalocts.imgur_api.model.Album;
 import com.akiniyalocts.imgur_api.model.Image;
 import com.akiniyalocts.imgur_api.model.Response;
 import com.akiniyalocts.imgur_api.model.post.AlbumResponse;
-import com.akiniyalocts.imgur_api.model.post.ImageResponse;
 
 import java.util.List;
 
@@ -70,13 +69,13 @@ public interface ImgurAPI {
 
     @POST("/image")
     void anonymousImageUpload(@Body TypedFile imageFile,
-                                Callback<Response> cb);
+                                Callback<Response<Image>> cb);
 
     @POST("/image")
     void anonymousImageUpload(@Body Base64 base64Image,
-                                Callback<Response> cb);
+                                Callback<Response<Image>> cb);
 
     @POST("/image")
     void anonymousImageUpload(@Body String url,
-                                Callback<Response> cb);
+                                Callback<Response<Image>> cb);
 }
