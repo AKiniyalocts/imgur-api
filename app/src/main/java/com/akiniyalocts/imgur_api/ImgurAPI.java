@@ -1,9 +1,12 @@
 package com.akiniyalocts.imgur_api;
 
+import android.util.Base64;
+
 import com.akiniyalocts.imgur_api.model.Album;
 import com.akiniyalocts.imgur_api.model.Image;
 import com.akiniyalocts.imgur_api.model.Response;
 import com.akiniyalocts.imgur_api.model.post.AlbumResponse;
+import com.akiniyalocts.imgur_api.model.post.ImageResponse;
 
 import java.util.List;
 
@@ -13,6 +16,7 @@ import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
+import retrofit.mime.TypedFile;
 
 /**
  * Interface representing the imgur api methods
@@ -63,4 +67,16 @@ public interface ImgurAPI {
     void deleteImagesFromAlbum(@Path("album") String idOrDeleteHash,
                                @Body String[] imageIds,
                                Callback<Response> cb);
+
+    @POST("/image")
+    void anonymousImageUpload(@Body TypedFile imageFile,
+                                Callback<Response> cb);
+
+    @POST("/image")
+    void anonymousImageUpload(@Body Base64 base64Image,
+                                Callback<Response> cb);
+
+    @POST("/image")
+    void anonymousImageUpload(@Body String url,
+                                Callback<Response> cb);
 }
