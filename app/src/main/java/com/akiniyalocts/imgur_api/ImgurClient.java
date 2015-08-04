@@ -40,7 +40,7 @@ public class ImgurClient {
      * Use to obtain instance of ImgurClient
      * Instance will be created if it was not created previously
      */
-    private static ImgurClient getInstance() {
+    public static ImgurClient getInstance() {
         if (instance == null) {
             instance = new ImgurClient();
         }
