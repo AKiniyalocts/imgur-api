@@ -4,7 +4,7 @@ package com.akiniyalocts.imgur_api.model;
  * Response from api
  * @param T Type is needed when the api supplies data within the basic response
  */
-public class Response<T> {
+public class ImgurResponse<T> {
     /**
      * The data returned via response
      */
