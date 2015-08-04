@@ -1,6 +1,7 @@
 package com.akiniyalocts.imgur_api;
 
 import android.support.annotation.NonNull;
+import android.util.Base64;
 
 import com.akiniyalocts.imgur_api.model.Album;
 import com.akiniyalocts.imgur_api.model.Image;
@@ -12,6 +13,7 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.mime.TypedFile;
 
 /**
  * Implementations for the Imgur REST interface.
@@ -375,5 +377,32 @@ public class ImgurClient {
         } else {
             getImgurAPI().deleteImagesFromAlbum(albumId, imageIds, cb);
         }
+    }
+
+    /**
+     *
+     * @param imageFile file you wish to upload
+     * @param cb Callback for response
+     */
+    public void uploadImage(TypedFile imageFile, Callback<Response> cb){
+        getImgurAPI().anonymousImageUpload(imageFile, cb);
+    }
+
+    /**
+     *
+     * @param base64Image base64 converted image
+     * @param cb Callback for response
+     */
+    public void uploadImage(Base64 base64Image, Callback<Response> cb){
+        getImgurAPI().anonymousImageUpload(base64Image, cb);
+    }
+
+    /**
+     *
+     * @param url url of image to upload
+     * @param cb Callback for response
+     */
+    public void uploadImage(@NonNull String url, Callback<Response> cb){
+        getImgurAPI().anonymousImageUpload(url, cb);
     }
 }
