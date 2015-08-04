@@ -31,15 +31,17 @@ public class ImgurClient {
         setRestAdapter();
     }
 
+    public static void initialize(String imgurClientID){
+        Constants.setClientId(imgurClientID);
+        getInstance();
+    }
+
     /**
      * Use to obtain instance of ImgurClient
      * Instance will be created if it was not created previously
-     *
-     * @param imgurClientID Client-ID provided from imgur
      */
-    public static ImgurClient getInstance(String imgurClientID) {
+    private static ImgurClient getInstance() {
         if (instance == null) {
-            Constants.setClientId(imgurClientID);
             instance = new ImgurClient();
         }
         return instance;

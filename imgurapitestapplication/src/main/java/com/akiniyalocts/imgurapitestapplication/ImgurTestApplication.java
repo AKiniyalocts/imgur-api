@@ -16,6 +16,6 @@ public class ImgurTestApplication extends Application {
     }
 
     private void createImgurClient(){
-        ImgurClient.getInstance(getString(R.string.client_id));
+        ImgurClient.initialize(getString(R.string.client_id));
     }
 }
