@@ -1,1 +1,1 @@
-include ':app' , ':imgurapitestapplication'
+include ':library' , ':imgurapitestapplication'

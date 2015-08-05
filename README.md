@@ -6,7 +6,7 @@ PR's and Issues welcomed!
 For a more thorough example of this library being used, checkout the development branch of this <a href="https://github.com/AKiniyalocts/imgur-android/tree/development">repository</a>.
 
 # Plan
-Create a simple library mirroring the availble api endpoints from <a href="https://api.imgur.com/">imgur</a> for use in Android.
+Create a simple library mirroring the available api endpoints from <a href="https://api.imgur.com/">imgur</a> for use in Android.
 We'll use <a href="http://square.github.io/retrofit/">Retrofit</a> to create our REST client, and then go from there.
 
 # Prerequisites
@@ -15,13 +15,17 @@ Go to <a href="https://api.imgur.com/">https://api.imgur.com/</a> and register a
 # Include in your project
 This project is under heavy development, because of this, only snapshots will be availble until a release client is ready.
 
-`repositories {
-	    maven { url "https://jitpack.io" }
-	}`
+```Gradle
+repositories {
+    maven { url "https://jitpack.io" }
+}
+```
 	
-`dependencies {
-      compile 'com.github.AKiniyalocts:imgur-api:-SNAPSHOT'
-}`
+```Gradle
+dependencies {
+    compile 'com.github.AKiniyalocts:imgur-api:-SNAPSHOT'
+}
+```
 
 # Uses
 
