@@ -1,6 +1,9 @@
 # imgur-api
 An open sourced imgur api for Android. (WIP)
 
+# Prerequisites
+You will need to go to <a href="https://api.imgur.com/">https://api.imgur.com/</a> and register an application to use anything in this library. 
+
 # Plan
 Create a simple library mirroring the availble api endpoints from <a href="https://api.imgur.com/">imgur</a> for use in Android.
 We'll use <a href="http://square.github.io/retrofit/">Retrofit</a> to create our REST client, and then go from there.
@@ -15,6 +18,48 @@ This project is under heavy development, because of this, only snapshots will be
 `dependencies {
       compile 'com.github.AKiniyalocts:imgur-api:-SNAPSHOT'
 }`
+
+# Uses
+
+### Initialize in your Application's onCreate()
+```java
+public class ImgurAndroidApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        
+        // Your Client-ID is obtained after registering your application with imgur
+        ImgurClient.initialize(Constants.MY_IMGUR_CLIENT_ID);
+    }
+}
+
+```
+
+### Anonymously Upload Images
+```java
+ ImgurClient.getInstance()
+                    .uploadImage(
+                            new TypedFile("image/*", mFile),
+                            "My Image Title",
+                            "My Image Description",
+                            new Callback<ImgurResponse<Image>>() {
+                                @Override
+                                public void success(ImgurResponse<Image> imageImgurResponse, Response response) {
+                                    //Do something with your response.
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    //Notify user of failure
+                                }
+                            }
+                    );
+                    
+    
+    // Title and description Strings are not required. Pass null if needed.
+    // There are also overrides for uploading from a URL or base64 image
+    
+```
 
 License
 --------
