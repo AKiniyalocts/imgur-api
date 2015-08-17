@@ -7,6 +7,8 @@ import com.akiniyalocts.imgur_api.model.ImgurResponse;
 import com.akiniyalocts.imgur_api.model.enums.AlbumLayout;
 import com.akiniyalocts.imgur_api.model.post.AlbumResponse;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -23,7 +25,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class AlbumApiTest {
 
-    private ImgurClient client = ImgurClient.getInstance("3efbb6d75f6524f");
+    private static ImgurClient client;
     private Result GetAlbumInfoResult = new Result();
     private Result GetAlbumImagesResult = new Result();
     private Result GetAlbumImageResult = new Result();
@@ -36,6 +38,12 @@ public class AlbumApiTest {
 
     private static final int TIMEOUT = 3500;
     public String mAlbumDeleteHash = "";
+
+    @BeforeClass
+    public static void init() {
+        ImgurClient.initialize("3efbb6d75f6524f");
+        client = ImgurClient.getInstance();
+    }
 
     @Test
     public void GetAlbumInfo_Should_Succeed_Album_Exists() throws InterruptedException {
