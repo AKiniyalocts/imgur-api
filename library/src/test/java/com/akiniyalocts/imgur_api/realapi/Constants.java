@@ -1,7 +1,7 @@
 package com.akiniyalocts.imgur_api.realapi;
 
-/**
- * Created by chja on 18.08.15.
- */
 public class Constants {
+    public static final int TIMEOUT = 3500;
+
+    public static final String API_KEY = "3efbb6d75f6524f";
 }

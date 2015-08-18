@@ -1,7 +1,6 @@
 package com.akiniyalocts.imgur_api.realapi;
 
-/**
- * Created by chja on 18.08.15.
- */
 public class Result {
+    public boolean SUCCESS_HAS_BEEN_CALLED;
+    public boolean FAILURE_HAS_BEEN_CALLED;
 }

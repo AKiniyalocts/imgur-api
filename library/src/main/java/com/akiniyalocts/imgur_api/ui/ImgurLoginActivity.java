@@ -39,7 +39,6 @@ public class ImgurLoginActivity extends AppCompatActivity {
                     imgurAuthorization.saveTokens(url);
 
                     ImgurLoginActivity.this.finish();
-
                 }
                 return tokensURL;
             }

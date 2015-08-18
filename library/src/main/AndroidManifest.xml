@@ -2,14 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.akiniyalocts.imgur_api">
 
-    <application
-        android:allowBackup="false"
-        android:fullBackupContent="false">
-
+    <application>
         <activity
             android:name=".ui.ImgurLoginActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/ImgurAPITheme.Login"/>
-
     </application>
 </manifest>

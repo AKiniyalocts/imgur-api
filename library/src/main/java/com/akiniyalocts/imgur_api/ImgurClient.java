@@ -427,4 +427,14 @@ public class ImgurClient {
                             Callback<ImgurResponse<Image>> cb){
         getImgurAPI().anonymousImageUpload(url, title, description, cb);
     }
+
+    /**
+     * Gets the default meme images
+     *
+     *
+     * @param cb Callback for response
+     */
+    public void getDefaultMemes(Callback<ImgurResponse<List<Image>>> cb){
+        getImgurAPI().getDefaultMemes(cb);
+    }
 }

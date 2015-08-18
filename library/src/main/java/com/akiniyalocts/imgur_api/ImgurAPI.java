@@ -86,5 +86,6 @@ public interface ImgurAPI {
                               @Query("description") String description,
                               Callback<ImgurResponse<Image>> cb);
 
-
+    @GET("/memegen/defaults")
+    void getDefaultMemes(Callback<ImgurResponse<List<Image>>> cb);
 }
