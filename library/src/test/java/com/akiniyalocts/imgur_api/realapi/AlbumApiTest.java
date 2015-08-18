@@ -7,13 +7,12 @@ import com.akiniyalocts.imgur_api.model.ImgurResponse;
 import com.akiniyalocts.imgur_api.model.enums.AlbumLayout;
 import com.akiniyalocts.imgur_api.model.post.AlbumResponse;
 
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +22,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class AlbumApiTest {
 
-    private ImgurClient client = ImgurClient.getInstance("3efbb6d75f6524f");
+    private static ImgurClient client;
     private Result GetAlbumInfoResult = new Result();
     private Result GetAlbumImagesResult = new Result();
     private Result GetAlbumImageResult = new Result();
@@ -34,17 +33,22 @@ public class AlbumApiTest {
     private Result AddAlbumImagesResult = new Result();
     private Result DeleteAlbumImagesResult = new Result();
 
-    private static final int TIMEOUT = 3500;
     public String mAlbumDeleteHash = "";
+
+    @BeforeClass
+    public static void init() {
+        ImgurClient.initialize(Constants.API_KEY);
+        client = ImgurClient.getInstance();
+    }
 
     @Test
     public void GetAlbumInfo_Should_Succeed_Album_Exists() throws InterruptedException {
-        MyCallback<ImgurResponse<Album>> cb
-                = new MyCallback<>(GetAlbumInfoResult);
+        TestCallback<ImgurResponse<Album>> cb
+                = new TestCallback<>(GetAlbumInfoResult);
 
         client.getAlbumInfo("VZtsj", cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(GetAlbumInfoResult.SUCCESS_HAS_BEEN_CALLED, true);
         assertEquals(GetAlbumInfoResult.FAILURE_HAS_BEEN_CALLED, false);
@@ -52,12 +56,12 @@ public class AlbumApiTest {
 
     @Test
     public void getAlbumInfo_Should_Succeed_Album_Not_Existant() throws InterruptedException {
-        MyCallback<ImgurResponse<Album>> cb
-                = new MyCallback<>(GetAlbumInfoResult);
+        TestCallback<ImgurResponse<Album>> cb
+                = new TestCallback<>(GetAlbumInfoResult);
 
         client.getAlbumInfo("xxxxxxx", cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(GetAlbumInfoResult.SUCCESS_HAS_BEEN_CALLED, false);
         assertEquals(GetAlbumInfoResult.FAILURE_HAS_BEEN_CALLED, true);
@@ -65,12 +69,12 @@ public class AlbumApiTest {
 
     @Test
     public void getAlbumImages_Should_Load_Images() throws InterruptedException {
-        MyCallback<ImgurResponse<List<Image>>> cb
-                = new MyCallback<>(GetAlbumImagesResult);
+        TestCallback<ImgurResponse<List<Image>>> cb
+                = new TestCallback<>(GetAlbumImagesResult);
 
         client.getAlbumImages("VZtsj", cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(GetAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
         assertEquals(GetAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
@@ -78,12 +82,12 @@ public class AlbumApiTest {
 
     @Test
     public void getAlbumImages_Should_Fail_Album_Not_Found() throws InterruptedException {
-        MyCallback<ImgurResponse<List<Image>>> cb
-                = new MyCallback<>(GetAlbumImagesResult);
+        TestCallback<ImgurResponse<List<Image>>> cb
+                = new TestCallback<>(GetAlbumImagesResult);
 
         client.getAlbumImages("xxxxxxxx", cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(GetAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, false);
         assertEquals(GetAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, true);
@@ -91,12 +95,12 @@ public class AlbumApiTest {
 
     @Test
     public void getAlbumImage_Should_Succeed_Image_And_Album_Found() throws InterruptedException {
-        MyCallback<ImgurResponse<Image>> cb
-                = new MyCallback<>(GetAlbumImageResult);
+        TestCallback<ImgurResponse<Image>> cb
+                = new TestCallback<>(GetAlbumImageResult);
 
         client.getAlbumImage("VZtsj", "VpXOjOE", cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(GetAlbumImageResult.SUCCESS_HAS_BEEN_CALLED, true);
         assertEquals(GetAlbumImageResult.FAILURE_HAS_BEEN_CALLED, false);
@@ -105,12 +109,12 @@ public class AlbumApiTest {
     @Test
     @Ignore
     public void getAlbumImage_Should_Succeed_Image_Not_Found() throws InterruptedException {
-        MyCallback<ImgurResponse<Image>> cb
-                = new MyCallback<>(GetAlbumImagesResult);
+        TestCallback<ImgurResponse<Image>> cb
+                = new TestCallback<>(GetAlbumImagesResult);
 
         client.getAlbumImage("VZtsj", "xxxxx", cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         //this is wrong! But the api returns status code 200 and success!
         assertEquals(GetAlbumImageResult.SUCCESS_HAS_BEEN_CALLED, true);
@@ -128,7 +132,7 @@ public class AlbumApiTest {
 
         client.createAlbum(album, cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(CreateAlbumResult.FAILURE_HAS_BEEN_CALLED, false);
         assertEquals(CreateAlbumResult.SUCCESS_HAS_BEEN_CALLED, true);
@@ -143,12 +147,12 @@ public class AlbumApiTest {
         album.setDescription("some description2");
         album.setLayout(AlbumLayout.BLOG);
 
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(UpdateAlbumResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(UpdateAlbumResult);
 
         client.updateAlbum(album, "", mAlbumDeleteHash, cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(UpdateAlbumResult.FAILURE_HAS_BEEN_CALLED, false);
         assertEquals(UpdateAlbumResult.SUCCESS_HAS_BEEN_CALLED, true);
@@ -159,12 +163,12 @@ public class AlbumApiTest {
         com.akiniyalocts.imgur_api.model.post.Album album = new com.akiniyalocts.imgur_api.model.post.Album();
         album.setTitle("some title2");
 
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(UpdateAlbumResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(UpdateAlbumResult);
 
         client.updateAlbum(album, "", "blablabla", cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(UpdateAlbumResult.FAILURE_HAS_BEEN_CALLED, true);
         assertEquals(UpdateAlbumResult.SUCCESS_HAS_BEEN_CALLED, false);
@@ -174,8 +178,8 @@ public class AlbumApiTest {
     public void updateAlbum_Should_Fail_Exception_No_Id_And_Deletehash_Given() {
         com.akiniyalocts.imgur_api.model.post.Album album = new com.akiniyalocts.imgur_api.model.post.Album();
 
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(new Result());
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(new Result());
 
         client.updateAlbum(album, "", "", cb);
     }
@@ -185,12 +189,12 @@ public class AlbumApiTest {
         //Your test is bad and you should feel bad.
         if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
 
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(DeleteAlbumResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(DeleteAlbumResult);
 
         client.deleteAlbum("", mAlbumDeleteHash, cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(DeleteAlbumResult.FAILURE_HAS_BEEN_CALLED, false);
         assertEquals(DeleteAlbumResult.SUCCESS_HAS_BEEN_CALLED, true);
@@ -198,12 +202,12 @@ public class AlbumApiTest {
 
     @Test
     public void deleteAlbum_Should_Fail_Album_Not_Found() throws InterruptedException {
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(DeleteAlbumResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(DeleteAlbumResult);
 
         client.deleteAlbum("", "blablabla", cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(DeleteAlbumResult.FAILURE_HAS_BEEN_CALLED, true);
         assertEquals(DeleteAlbumResult.SUCCESS_HAS_BEEN_CALLED, false);
@@ -211,8 +215,8 @@ public class AlbumApiTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void deleteAlbum_Should_Fail_Exception_No_AlbumId_And_Deletehash_Given() {
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(new Result());
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(new Result());
 
         client.deleteAlbum(null, "", cb);
     }
@@ -221,8 +225,8 @@ public class AlbumApiTest {
     public void setAlbumImages_Should_Succeed() throws InterruptedException {
         //Your test is bad and you should feel bad.
         if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(SetAlbumImagesResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(SetAlbumImagesResult);
 
         String[] imageIds = new String[2];
         imageIds[0] = "uZdYud1";
@@ -230,7 +234,7 @@ public class AlbumApiTest {
 
         client.setAlbumImages("", mAlbumDeleteHash, imageIds, cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(SetAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
         assertEquals(SetAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
@@ -240,15 +244,15 @@ public class AlbumApiTest {
     public void setAlbumImages_Should_Succeed_Image_Not_Found() throws InterruptedException {
         //Your test is bad and you should feel bad.
         if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(SetAlbumImagesResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(SetAlbumImagesResult);
 
         String[] imageIds = new String[1];
         imageIds[0] = "xxxx";
 
         client.setAlbumImages("", mAlbumDeleteHash, imageIds, cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(SetAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
         assertEquals(SetAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
@@ -256,8 +260,8 @@ public class AlbumApiTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void setAlbumImages_Should_Fail_Exception_No_AlbumId_And_Deletehash_Given() throws InterruptedException {
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(SetAlbumImagesResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(SetAlbumImagesResult);
         client.setAlbumImages("", "", new String[0], cb);
     }
 
@@ -265,8 +269,8 @@ public class AlbumApiTest {
     public void addImagesToAlbum_Should_Succeed() throws InterruptedException {
         //Your test is bad and you should feel bad.
         if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(AddAlbumImagesResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(AddAlbumImagesResult);
 
         String[] imageIds = new String[2];
         imageIds[0] = "uZdYud1";
@@ -274,7 +278,7 @@ public class AlbumApiTest {
 
         client.addImagesToAlbum("", mAlbumDeleteHash, imageIds, cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(AddAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
         assertEquals(AddAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
@@ -284,15 +288,15 @@ public class AlbumApiTest {
     public void addAlbumImages_Should_Succeed_Image_Not_Found() throws InterruptedException {
         //Your test is bad and you should feel bad.
         if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(AddAlbumImagesResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(AddAlbumImagesResult);
 
         String[] imageIds = new String[1];
         imageIds[0] = "xxxx";
 
         client.setAlbumImages("", mAlbumDeleteHash, imageIds, cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(AddAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
         assertEquals(AddAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
@@ -301,8 +305,8 @@ public class AlbumApiTest {
     @Test(expected = IllegalArgumentException.class)
     public void addImagesToAlbum_Should_Fail_Exception_No_AlbumId_And_Deletehash_Given()
             throws InterruptedException {
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(AddAlbumImagesResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(AddAlbumImagesResult);
         client.addImagesToAlbum("", "", new String[0], cb);
     }
 
@@ -310,8 +314,8 @@ public class AlbumApiTest {
     public void deleteImagesFromAlbum_Should_Succeed() throws InterruptedException {
         //Your test is bad and you should feel bad.
         if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(DeleteAlbumImagesResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(DeleteAlbumImagesResult);
 
         String[] imageIds = new String[2];
         imageIds[0] = "uZdYud1";
@@ -319,7 +323,7 @@ public class AlbumApiTest {
 
         client.deleteImagesFromAlbum("", mAlbumDeleteHash, imageIds, cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(DeleteAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
         assertEquals(DeleteAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
@@ -329,15 +333,15 @@ public class AlbumApiTest {
     public void deleteImagesFromAlbum_Should_Succeed_Image_Not_Found() throws InterruptedException {
         //Your test is bad and you should feel bad.
         if (mAlbumDeleteHash.isEmpty()) createAlbum_Should_Succeed();
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(DeleteAlbumImagesResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(DeleteAlbumImagesResult);
 
         String[] imageIds = new String[1];
         imageIds[0] = "xxxx";
 
         client.deleteImagesFromAlbum("", mAlbumDeleteHash, imageIds, cb);
 
-        Thread.sleep(TIMEOUT);
+        Thread.sleep(Constants.TIMEOUT);
 
         assertEquals(DeleteAlbumImagesResult.FAILURE_HAS_BEEN_CALLED, false);
         assertEquals(DeleteAlbumImagesResult.SUCCESS_HAS_BEEN_CALLED, true);
@@ -346,12 +350,12 @@ public class AlbumApiTest {
     @Test(expected = IllegalArgumentException.class)
     public void deleteImagesFromAlbum_Should_Fail_Exception_No_AlbumId_And_Deletehash_Given()
             throws InterruptedException {
-        MyCallback<ImgurResponse> cb
-                = new MyCallback<>(DeleteAlbumResult);
+        TestCallback<ImgurResponse> cb
+                = new TestCallback<>(DeleteAlbumResult);
         client.deleteImagesFromAlbum("", "", new String[0], cb);
     }
 
-    private class AlbumCallback extends MyCallback<ImgurResponse<AlbumResponse>> {
+    private class AlbumCallback extends TestCallback<ImgurResponse<AlbumResponse>> {
 
         public AlbumCallback(Result result) {
             super(result);
@@ -362,33 +366,5 @@ public class AlbumApiTest {
             super.success(r, response);
             mAlbumDeleteHash = r.data.deletehash;
         }
-    }
-
-    private class MyCallback<T> implements Callback<T> {
-
-        public Result result;
-
-        public MyCallback(Result result) {
-            this.result = result;
-        }
-
-        @Override
-        public void success(T t, Response response) {
-            System.out.println("Success");
-            result.SUCCESS_HAS_BEEN_CALLED = true;
-            result.FAILURE_HAS_BEEN_CALLED = false;
-        }
-
-        @Override
-        public void failure(RetrofitError error) {
-            result.FAILURE_HAS_BEEN_CALLED = true;
-            result.SUCCESS_HAS_BEEN_CALLED = false;
-            System.out.println("Failure:" + error.toString());
-        }
-    }
-
-    private class Result {
-        public boolean SUCCESS_HAS_BEEN_CALLED;
-        public boolean FAILURE_HAS_BEEN_CALLED;
     }
 }

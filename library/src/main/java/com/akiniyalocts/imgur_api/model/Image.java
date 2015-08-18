@@ -15,7 +15,7 @@ public class Image {
     private int height;
     private int size;
     private int views;
-    private int bandwidth;
+    private long bandwidth;
     private String deletehash;
     private String name;
     private String section;
@@ -110,11 +110,11 @@ public class Image {
         this.views = views;
     }
 
-    public int getBandwidth() {
+    public long getBandwidth() {
         return bandwidth;
     }
 
-    public void setBandwidth(int bandwidth) {
+    public void setBandwidth(long bandwidth) {
         this.bandwidth = bandwidth;
     }
 
