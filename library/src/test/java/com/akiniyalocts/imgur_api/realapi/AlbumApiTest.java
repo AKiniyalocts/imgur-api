@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 /**
  * Well, some "real life" testing so we dont need an activity which executes the actions every time.
  */
-@Ignore
 public class AlbumApiTest {
 
     private static ImgurClient client;
